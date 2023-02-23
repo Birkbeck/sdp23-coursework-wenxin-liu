@@ -19,12 +19,9 @@ amongst other skills.
 
 ## Details
 
-**Name**: Your name should appear here
+**Name**: Wenxin Liu
 
-**Your userid**: e.g., myname01
-
-Please do not forget to complete this part as too often we have "orphaned" repositories,
-which can require months to sort out.
+**Your userid**: wliu06
 
 ## The problem
 
