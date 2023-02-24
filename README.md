@@ -162,28 +162,57 @@ There are two components to this coursework assignment.
 1. Complete the methods in the `Instruction` class — this may require you to add some fields,  
    which should be *protected*, so that they are accessible in any subclasses.
 
-2. Now create a subclass of `Instruction` for each kind of SML instruction and fix 
-   the method `Translator.instruction` so that it properly translates that kind of instruction.
-   *Recommended*: write one instruction at a time and test it out thoroughly, before proceeding to the next!
+2. Study the implementation of a concrete subclass AddInstruction of Instruction and associated test class AddInstructionTest.
 
-3. Start with the `add` instruction, because the code for translating it is already there — 
+3. Now create a subclass of `Instruction` for each of the remaining six kinds of SML instructions and fix the method 
+`Translator.getInstruction` so that it properly translates that kind of instruction. Recommended: write one instruction 
+at a time and test it out thoroughly, before proceeding to the next!
+
+4. Start with the `add` instruction, because the code for translating it is already there — 
    in method `Translator.instruction`.  Initially, the program will not compile because there is no class 
    for the instruction `add`; once that class is written, the program will compile.
 
-4. For each instruction, the subclass needs appropriate fields, a constructor, 
+5. For each instruction, the subclass needs appropriate fields, a constructor, 
    `toString` method, and a method `execute`; `toString` and `execute` should override 
    the same methods in the `Instruction` class using appropriate annotations.
 
-5. As you do this, you will see that each successive class can be written by 
-   duplicating a previous one and modifying it (obviously avoiding too much repeated code).
+6. As you do this, you will see that each successive class can be written by 
+   duplicating a previous one and modifying it (obviously avoiding too much repeated code). 
 
-6. After you finish writing a subclass for an SML instruction (except for `add`), 
-   you will have to add code to the method `Translator.instruction` to translate 
+7. After you finish writing a subclass for an SML instruction (except for `add`), 
+   you will have to add code to the method `Translator.getInstruction` to translate 
    that instruction. The existing code for translating `add` should help you with this.
 
-7. There are also a few places in the code with TODO: labels - follow the instructions to
+8. There are also a few places in the code with TODO: labels - follow the instructions to
    improve the provided code (or implement missing methods as required). 
    Use the Java Stream API whenever possible instead of loops.
+
+```
+L1: mov EAX 66
+    mov EBX 10
+    add EAX EAX
+    mul EAX EBX
+    out EAX
+    jnz EAX L1
+```
+
+and file test2.sml with the following lines
+
+```
+    mov EAX 6
+    mov EBX 1
+    mov ECX 1
+f3: mul EBX EAX
+    sub EAX ECX
+    jnz EAX f3
+    out EBX
+```
+
+Sorry, these two files did not make it to the template repository (but test2.sml is listed in the README.md file).
+
+In other words, you should be able to run your program from the command line as follows
+
+`java sml.Main test1.sml`
 
 ##### Part II
 
