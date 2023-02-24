@@ -33,7 +33,9 @@ class AddInstructionTest {
         registers.set(EAX, 5);
         registers.set(EBX, 6);
         Instruction instruction = new AddInstruction(null, EAX, EBX);
+
         instruction.execute(machine);
+
         Assertions.assertEquals(11, machine.getRegisters().get(EAX));
     }
 
@@ -42,7 +44,26 @@ class AddInstructionTest {
         registers.set(EAX, -5);
         registers.set(EBX, 6);
         Instruction instruction = new AddInstruction(null, EAX, EBX);
+
         instruction.execute(machine);
+
         Assertions.assertEquals(1, machine.getRegisters().get(EAX));
+    }
+
+    @Test
+    void toStringValid() {
+        registers.set(EBX, 10);
+        registers.set(EDI, 2);
+        Instruction instruction = new AddInstruction("L1", EBX, EDI);
+
+        Assertions.assertEquals("L1: add EBX EDI", instruction.toString());
+    }
+
+    @Test
+    void equalsValid() {
+        Instruction firstAddInstruction = new AddInstruction("L1", EBX, EDI);
+        Instruction secondAddInstruction = new AddInstruction("L1", EBX, EDI);
+
+        Assertions.assertEquals(firstAddInstruction, secondAddInstruction);
     }
 }

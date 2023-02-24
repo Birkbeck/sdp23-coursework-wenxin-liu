@@ -27,4 +27,9 @@ public class MultiplyInstruction extends Instruction {
     public String toString() {
         return getLabelString() + getOpcode() + " " + result + " " + source;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return false;
+    }
 }

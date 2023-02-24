@@ -34,4 +34,30 @@ public class AddInstruction extends Instruction {
 	public String toString() {
 		return getLabelString() + getOpcode() + " " + result + " " + source;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		// self check
+		if (o == this) {
+			return true;
+		}
+
+		// null check
+		if (o == null) {
+			return false;
+		}
+
+		// type check and cast
+		if (getClass() != o.getClass()) {
+			return false;
+		}
+
+		AddInstruction other = (AddInstruction) o;
+
+		return
+				this.label.equals(other.label)
+				&& this.opcode.equals(other.opcode)
+				&& this.source.name().equals(other.source.name())
+				&& this.result.name().equals(other.result.name());
+	}
 }
