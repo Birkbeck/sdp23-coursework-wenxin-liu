@@ -8,8 +8,7 @@ import sml.Instruction;
 import sml.Machine;
 import sml.Registers;
 
-import static sml.Registers.Register.EAX;
-import static sml.Registers.Register.EBX;
+import static sml.Registers.Register.*;
 
 public class MultiplyInstructionTest {
     private Machine machine;
@@ -32,6 +31,15 @@ public class MultiplyInstructionTest {
     void executeValid() {
         registers.set(EAX, 5);
         registers.set(EBX, 6);
+        Instruction instruction = new MultiplyInstruction(null, EAX, EBX);
+        instruction.execute(machine);
+        Assertions.assertEquals(30, machine.getRegisters().get(EAX));
+    }
+
+    @Test
+    void executeValidTwo() {
+        registers.set(EAX, -5);
+        registers.set(EBX, -6);
         Instruction instruction = new MultiplyInstruction(null, EAX, EBX);
         instruction.execute(machine);
         Assertions.assertEquals(30, machine.getRegisters().get(EAX));
