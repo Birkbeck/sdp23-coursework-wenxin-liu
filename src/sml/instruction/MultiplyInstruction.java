@@ -32,4 +32,9 @@ public class MultiplyInstruction extends Instruction {
     public boolean equals(Object o) {
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }

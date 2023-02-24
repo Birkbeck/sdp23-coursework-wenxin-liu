@@ -66,4 +66,12 @@ class AddInstructionTest {
 
         Assertions.assertEquals(firstAddInstruction, secondAddInstruction);
     }
+
+    @Test
+    void hashCodeValid() {
+        Instruction firstAddInstruction = new AddInstruction("L1", EBX, EDI);
+        Instruction secondAddInstruction = new AddInstruction("L1", EBX, EDI);
+
+        Assertions.assertEquals(firstAddInstruction.hashCode(), secondAddInstruction.hashCode());
+    }
 }
