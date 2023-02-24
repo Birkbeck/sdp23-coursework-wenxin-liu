@@ -44,4 +44,12 @@ public class MultiplyInstructionTest {
         instruction.execute(machine);
         Assertions.assertEquals(30, machine.getRegisters().get(EAX));
     }
+
+    @Test
+    void toStringValid() {
+        registers.set(EAX, 2);
+        registers.set(EBX, -3);
+        Instruction instruction = new MultiplyInstruction("f1", EAX, ECX);
+        Assertions.assertEquals("f1: mul EAX ECX", instruction.toString());
+    }
 }
