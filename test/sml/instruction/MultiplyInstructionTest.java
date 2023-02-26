@@ -60,4 +60,12 @@ public class MultiplyInstructionTest {
 
         Assertions.assertEquals(firstMultiplyInstruction, secondMultiplyInstruction);
     }
+
+    @Test
+    void hashCodeValid() {
+        Instruction firstMultiplyInstruction = new MultiplyInstruction(null, EDI, ESI);
+        Instruction secondMultiplyInstruction = new MultiplyInstruction(null, EDI, ESI);
+
+        Assertions.assertEquals(firstMultiplyInstruction.hashCode(), secondMultiplyInstruction.hashCode());
+    }
 }

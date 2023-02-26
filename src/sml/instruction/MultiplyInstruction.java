@@ -57,6 +57,6 @@ public class MultiplyInstruction extends Instruction {
 
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hash(label, opcode, source, result);
     }
 }
