@@ -74,4 +74,6 @@ class AddInstructionTest {
 
         Assertions.assertEquals(firstAddInstruction.hashCode(), secondAddInstruction.hashCode());
     }
+
+    // TODO: handle when two instructions have the same label, exception should be thrown
 }

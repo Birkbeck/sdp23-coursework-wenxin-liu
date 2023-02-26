@@ -13,58 +13,57 @@ import java.util.Objects;
  */
 
 public class AddInstruction extends Instruction {
-	private final RegisterName result;
-	private final RegisterName source;
+    private final RegisterName result;
+    private final RegisterName source;
 
-	public static final String OP_CODE = "add";
+    public static final String OP_CODE = "add";
 
-	public AddInstruction(String label, RegisterName result, RegisterName source) {
-		super(label, OP_CODE);
-		this.result = result;
-		this.source = source;
-	}
+    public AddInstruction(String label, RegisterName result, RegisterName source) {
+        super(label, OP_CODE);
+        this.result = result;
+        this.source = source;
+    }
 
-	@Override
-	public int execute(Machine m) {
-		int value1 = m.getRegisters().get(result);
-		int value2 = m.getRegisters().get(source);
-		m.getRegisters().set(result, value1 + value2);
-		return NORMAL_PROGRAM_COUNTER_UPDATE;
-	}
+    @Override
+    public int execute(Machine m) {
+        int value1 = m.getRegisters().get(result);
+        int value2 = m.getRegisters().get(source);
+        m.getRegisters().set(result, value1 + value2);
+        return NORMAL_PROGRAM_COUNTER_UPDATE;
+    }
 
-	@Override
-	public String toString() {
-		return getLabelString() + getOpcode() + " " + result + " " + source;
-	}
+    @Override
+    public String toString() {
+        return getLabelString() + getOpcode() + " " + result + " " + source;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		// self check
-		if (o == this) {
-			return true;
-		}
+    @Override
+    public boolean equals(Object o) {
+        // self check
+        if (o == this) {
+            return true;
+        }
 
-		// null check
-		if (o == null) {
-			return false;
-		}
+        // null check
+        if (o == null) {
+            return false;
+        }
 
-		// type check and cast
-		if (getClass() != o.getClass()) {
-			return false;
-		}
+        // type check and cast
+        if (getClass() != o.getClass()) {
+            return false;
+        }
 
-		AddInstruction other = (AddInstruction) o;
+        AddInstruction other = (AddInstruction) o;
 
-		return
-				this.label.equals(other.label)
-				&& this.opcode.equals(other.opcode)
-				&& this.source.name().equals(other.source.name())
-				&& this.result.name().equals(other.result.name());
-	}
+        return Objects.equals(this.label, other.label)
+                && Objects.equals(this.opcode, other.opcode)
+                && Objects.equals(this.source.name(), other.source.name())
+                && Objects.equals(this.result.name(), other.result.name());
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(label, opcode, source, result);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(label, opcode, source, result);
+    }
 }

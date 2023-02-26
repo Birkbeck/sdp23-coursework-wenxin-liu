@@ -159,8 +159,8 @@ There are two components to this coursework assignment.
 
 ##### Part I
 
-1. Complete the methods in the `Instruction` class — this may require you to add some fields,  
-   which should be *protected*, so that they are accessible in any subclasses.
+1. Complete the methods in the `Instruction` class — this may require you to add some fields, which should be 
+*protected*, so that they are accessible in any subclasses.
 
 2. Study the implementation of a concrete subclass AddInstruction of Instruction and associated test class AddInstructionTest.
 
