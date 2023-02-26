@@ -85,6 +85,23 @@ public final class Translator {
                 return new SubtractInstruction(label, Register.valueOf(r), Register.valueOf(s));
             }
 
+            case DivideInstruction.OP_CODE -> {
+                String r = scan();
+                String s = scan();
+                return new DivideInstruction(label, Register.valueOf(r), Register.valueOf(s));
+            }
+
+            case OutInstruction.OP_CODE -> {
+                String r = scan();
+                return new OutInstruction(label, Register.valueOf(r));
+            }
+
+            case MoveInstruction.OP_CODE -> {
+                String r = scan();
+                String s = scan();
+                return new MoveInstruction(label, Register.valueOf(r), Integer.valueOf(s));
+            }
+
             // TODO: add code for all other types of instructions
 
             // TODO: Then, replace the switch by using the Reflection API
