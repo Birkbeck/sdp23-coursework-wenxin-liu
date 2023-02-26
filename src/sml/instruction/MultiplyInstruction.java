@@ -4,6 +4,8 @@ import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+import java.util.Objects;
+
 public class MultiplyInstruction extends Instruction {
     private final RegisterName result;
     private final RegisterName source;
@@ -30,7 +32,27 @@ public class MultiplyInstruction extends Instruction {
 
     @Override
     public boolean equals(Object o) {
-        return false;
+        // self check
+        if (o == this) {
+            return true;
+        }
+
+        // null check
+        if (o == null) {
+            return false;
+        }
+
+        // type check and cast
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+
+        MultiplyInstruction other = (MultiplyInstruction) o;
+
+        return Objects.equals(this.label, other.label)
+                && Objects.equals(this.opcode, other.opcode)
+                && Objects.equals(this.source.name(), other.source.name())
+                && Objects.equals(this.result.name(), other.result.name());
     }
 
     @Override

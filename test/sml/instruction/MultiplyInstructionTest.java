@@ -52,4 +52,12 @@ public class MultiplyInstructionTest {
         Instruction instruction = new MultiplyInstruction("f1", EAX, ECX);
         Assertions.assertEquals("f1: mul EAX ECX", instruction.toString());
     }
+
+    @Test
+    void equalsValid() {
+        Instruction firstMultiplyInstruction = new MultiplyInstruction(null, EBX, EBP);
+        Instruction secondMultiplyInstruction = new MultiplyInstruction(null, EBX, EBP);
+
+        Assertions.assertEquals(firstMultiplyInstruction, secondMultiplyInstruction);
+    }
 }
