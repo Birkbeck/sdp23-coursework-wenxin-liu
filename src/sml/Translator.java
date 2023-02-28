@@ -74,32 +74,38 @@ public final class Translator {
             }
 
             case MultiplyInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new MultiplyInstruction(label, Register.valueOf(r), Register.valueOf(s));
+                String resultRegister = scan();
+                String sourceRegister = scan();
+                return new MultiplyInstruction(label, Register.valueOf(resultRegister), Register.valueOf(sourceRegister));
             }
 
             case SubtractInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new SubtractInstruction(label, Register.valueOf(r), Register.valueOf(s));
+                String resultRegister = scan();
+                String sourceRegister = scan();
+                return new SubtractInstruction(label, Register.valueOf(resultRegister), Register.valueOf(sourceRegister));
             }
 
             case DivideInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new DivideInstruction(label, Register.valueOf(r), Register.valueOf(s));
+                String resultRegister = scan();
+                String sourceRegister = scan();
+                return new DivideInstruction(label, Register.valueOf(resultRegister), Register.valueOf(sourceRegister));
             }
 
             case OutInstruction.OP_CODE -> {
-                String r = scan();
-                return new OutInstruction(label, Register.valueOf(r));
+                String targetRegister = scan();
+                return new OutInstruction(label, Register.valueOf(targetRegister));
             }
 
             case MoveInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new MoveInstruction(label, Register.valueOf(r), Integer.valueOf(s));
+                String targetRegister = scan();
+                String sourceRegister = scan();
+                return new MoveInstruction(label, Register.valueOf(targetRegister), Integer.valueOf(sourceRegister));
+            }
+
+            case JumpInstruction.OP_CODE -> {
+                String register = scan();
+                String jumpToLabel = scan();
+                return new JumpInstruction(label, Register.valueOf(register), jumpToLabel);
             }
 
             // TODO: add code for all other types of instructions

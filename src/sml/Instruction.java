@@ -32,6 +32,7 @@ public abstract class Instruction {
 	}
 
 	public static int NORMAL_PROGRAM_COUNTER_UPDATE = -1;
+	public static int ERROR_PROGRAM_COUNTER_UPDATE = -2;
 
 	/**
 	 * Executes the instruction in the given machine.
