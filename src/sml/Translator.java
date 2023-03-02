@@ -125,7 +125,7 @@ public final class Translator {
 
             ArrayList<String> argumentsList = new ArrayList<>();
             argumentsList.add(label);
-            scan();
+
             for (int i = 1; i < constructor.getParameterCount(); i++) {
                 argumentsList.add(scan());
             }

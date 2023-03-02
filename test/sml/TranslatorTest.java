@@ -58,6 +58,7 @@ class TranslatorTest {
 
             assertTrue(addInstruction instanceof AddInstruction);
             assertEquals("add", addInstruction.opcode);
+            assertEquals("f1: add EAX EBX", addInstruction.toString());
         } catch (Exception e) {
             fail(e);
         }
@@ -73,6 +74,7 @@ class TranslatorTest {
 
             assertTrue(subtractionInstruction instanceof SubInstruction);
             assertEquals("sub", subtractionInstruction.opcode);
+            assertEquals("f1: sub EAX EBX", subtractionInstruction.toString());
         } catch (Exception e) {
             fail(e);
         }
@@ -87,6 +89,7 @@ class TranslatorTest {
 
             assertTrue(multiplyInstruction instanceof MulInstruction);
             assertEquals("mul", multiplyInstruction.opcode);
+            assertEquals("f1: mul EAX EBX", multiplyInstruction.toString());
         } catch (Exception e) {
             fail(e);
         }
@@ -101,6 +104,7 @@ class TranslatorTest {
 
             assertTrue(divisionInstruction instanceof DivInstruction);
             assertEquals("div", divisionInstruction.opcode);
+            assertEquals("f1: div EAX EBX", divisionInstruction.toString());
         } catch (Exception e) {
             fail(e);
         }
