@@ -50,7 +50,34 @@ public final class Labels {
 		return "";
 	}
 
-	// TODO: Implement equals and hashCode (needed in class Machine).
+	// Implement equals and hashCode (needed in class Machine).
+
+	@Override
+	public boolean equals(Object o) {
+		// self check
+		if (o == this) {
+			return true;
+		}
+
+		// null check
+		if (o == null) {
+			return false;
+		}
+
+		// type check and cast
+		if (getClass() != o.getClass()) {
+			return false;
+		}
+
+		Labels other = (Labels) o;
+
+		return this.labels.equals(other.labels);
+	}
+
+	@Override
+	public int hashCode() {
+		return labels.hashCode();
+	}
 
 	/**
 	 * Removes the labels
