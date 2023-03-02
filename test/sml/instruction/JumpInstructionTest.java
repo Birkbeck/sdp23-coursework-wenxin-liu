@@ -12,6 +12,7 @@ import java.util.List;
 
 import static sml.Registers.Register.*;
 
+// TODO: add comments to test scenarios to better explain set up
 // jnz s L	If the contents of register s is not zero, then make the statement labeled L the next statement to execute
 public class JumpInstructionTest {
     private Machine machine;
@@ -49,7 +50,7 @@ public class JumpInstructionTest {
 
     @Test
     void executeValidTwo() {
-        Instruction subtractInstruction = new SubtractInstruction("L1", EAX, EBX);
+        Instruction subtractInstruction = new SubInstruction("L1", EAX, EBX);
         Instruction multiplyInstruction = new MultiplyInstruction("L2", EAX, EBX);
         Instruction addInstruction = new AddInstruction("L3", EAX, EBX);
 

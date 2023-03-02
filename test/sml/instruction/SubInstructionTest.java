@@ -10,7 +10,7 @@ import sml.Registers;
 
 import static sml.Registers.Register.*;
 
-public class SubtractInstructionTest {
+public class SubInstructionTest {
     private Machine machine;
     private Registers registers;
 
@@ -31,7 +31,7 @@ public class SubtractInstructionTest {
     void executeValid() {
         registers.set(EAX, 5);
         registers.set(EBX, 6);
-        Instruction instruction = new SubtractInstruction(null, EAX, EBX);
+        Instruction instruction = new SubInstruction(null, EAX, EBX);
 
         instruction.execute(machine);
 
@@ -42,7 +42,7 @@ public class SubtractInstructionTest {
     void executeValidTwo() {
         registers.set(EAX, -5);
         registers.set(EBX, 6);
-        Instruction instruction = new SubtractInstruction(null, EAX, EBX);
+        Instruction instruction = new SubInstruction(null, EAX, EBX);
 
         instruction.execute(machine);
 
@@ -53,23 +53,23 @@ public class SubtractInstructionTest {
     void toStringValid() {
         registers.set(EBX, 10);
         registers.set(EDI, 2);
-        Instruction instruction = new SubtractInstruction("L1", EBX, EDI);
+        Instruction instruction = new SubInstruction("L1", EBX, EDI);
 
         Assertions.assertEquals("L1: sub EBX EDI", instruction.toString());
     }
 
     @Test
     void equalsValid() {
-        Instruction firstSubtractInstruction = new SubtractInstruction("L1", EBX, EDI);
-        Instruction secondSubtractInstruction = new SubtractInstruction("L1", EBX, EDI);
+        Instruction firstSubtractInstruction = new SubInstruction("L1", EBX, EDI);
+        Instruction secondSubtractInstruction = new SubInstruction("L1", EBX, EDI);
 
         Assertions.assertEquals(firstSubtractInstruction, secondSubtractInstruction);
     }
 
     @Test
     void hashCodeValid() {
-        Instruction firstSubtractInstruction = new SubtractInstruction("L1", EBX, EDI);
-        Instruction secondSubtractInstruction = new SubtractInstruction("L1", EBX, EDI);
+        Instruction firstSubtractInstruction = new SubInstruction("L1", EBX, EDI);
+        Instruction secondSubtractInstruction = new SubInstruction("L1", EBX, EDI);
 
         Assertions.assertEquals(firstSubtractInstruction.hashCode(), secondSubtractInstruction.hashCode());
     }

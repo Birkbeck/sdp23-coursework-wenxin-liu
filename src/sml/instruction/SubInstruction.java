@@ -12,13 +12,13 @@ import java.util.Objects;
  * @author
  */
 
-public class SubtractInstruction extends Instruction {
+public class SubInstruction extends Instruction {
     private final RegisterName result;
     private final RegisterName source;
 
     public static final String OP_CODE = "sub";
 
-    public SubtractInstruction(String label, RegisterName result, RegisterName source) {
+    public SubInstruction(String label, RegisterName result, RegisterName source) {
         super(label, OP_CODE);
         this.result = result;
         this.source = source;
@@ -54,7 +54,7 @@ public class SubtractInstruction extends Instruction {
             return false;
         }
 
-        SubtractInstruction other = (SubtractInstruction) o;
+        SubInstruction other = (SubInstruction) o;
 
         return Objects.equals(this.label, other.label)
                 && Objects.equals(this.opcode, other.opcode)
