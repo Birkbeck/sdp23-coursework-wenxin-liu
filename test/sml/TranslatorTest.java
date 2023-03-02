@@ -2,6 +2,7 @@ package sml;
 
 import org.junit.jupiter.api.Test;
 import sml.instruction.AddInstruction;
+import sml.instruction.DivInstruction;
 import sml.instruction.MulInstruction;
 import sml.instruction.SubInstruction;
 
@@ -23,6 +24,8 @@ class TranslatorTest {
 
             lineField = translator.getClass().getDeclaredField("line");
             lineField.setAccessible(true);
+
+            // e.g. "add EAX EBX"
             lineField.set(translator, String.format("%s %s %s", opcode, result, source));
 
             getInstructionMethod = translator.getClass().getDeclaredMethod("getInstruction", String.class);
@@ -70,6 +73,20 @@ class TranslatorTest {
 
             assertTrue(multiplyInstruction instanceof MulInstruction);
             assertEquals("mul", multiplyInstruction.opcode);
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
+
+    @Test
+    void canCreateDivisionInstructionWithReflection() {
+        try {
+            setUp("div", "EAX", "EBX");
+
+            Instruction divisionInstruction = (Instruction) getInstructionMethod.invoke(translator, "f1");
+
+            assertTrue(divisionInstruction instanceof DivInstruction);
+            assertEquals("div", divisionInstruction.opcode);
         } catch (Exception e) {
             fail(e);
         }

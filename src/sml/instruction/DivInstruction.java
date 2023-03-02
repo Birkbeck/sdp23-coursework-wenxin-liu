@@ -12,13 +12,13 @@ import java.util.Objects;
  * @author
  */
 
-public class DivideInstruction extends Instruction {
+public class DivInstruction extends Instruction {
     private final RegisterName result;
     private final RegisterName source;
 
     public static final String OP_CODE = "div";
 
-    public DivideInstruction(String label, RegisterName result, RegisterName source) {
+    public DivInstruction(String label, RegisterName result, RegisterName source) {
         super(label, OP_CODE);
         this.result = result;
         this.source = source;
@@ -54,7 +54,7 @@ public class DivideInstruction extends Instruction {
             return false;
         }
 
-        DivideInstruction other = (DivideInstruction) o;
+        DivInstruction other = (DivInstruction) o;
 
         return Objects.equals(this.label, other.label)
                 && Objects.equals(this.opcode, other.opcode)
