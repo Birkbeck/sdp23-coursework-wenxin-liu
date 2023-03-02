@@ -11,7 +11,7 @@ import sml.Registers;
 import static sml.Registers.Register.*;
 
 // mov r x	Store integer x in register r
-public class MoveInstructionTest {
+public class MovInstructionTest {
     private Machine machine;
     private Registers registers;
 
@@ -31,7 +31,7 @@ public class MoveInstructionTest {
     @Test
     void executeValid() {
         registers.set(ECX, 5);
-        Instruction instruction = new MoveInstruction("f3", ECX, 50);
+        Instruction instruction = new MovInstruction("f3", ECX, 50);
 
         instruction.execute(machine);
 
@@ -41,7 +41,7 @@ public class MoveInstructionTest {
     @Test
     void executeValidTwo() {
         registers.set(ESP, -10);
-        Instruction instruction = new MoveInstruction(null, ESP, -40);
+        Instruction instruction = new MovInstruction(null, ESP, -40);
 
         instruction.execute(machine);
 
@@ -52,23 +52,23 @@ public class MoveInstructionTest {
     @Test
     void toStringValid() {
         registers.set(EBX, 10);
-        Instruction instruction = new MoveInstruction("L1", EBX, 25);
+        Instruction instruction = new MovInstruction("L1", EBX, 25);
 
         Assertions.assertEquals("L1: mov EBX 25", instruction.toString());
     }
 
     @Test
     void equalsValid() {
-        Instruction firstMoveInstruction = new MoveInstruction("L1", EDI, 400);
-        Instruction secondMoveInstruction = new MoveInstruction("L1", EDI, 400);
+        Instruction firstMoveInstruction = new MovInstruction("L1", EDI, 400);
+        Instruction secondMoveInstruction = new MovInstruction("L1", EDI, 400);
 
         Assertions.assertEquals(firstMoveInstruction, secondMoveInstruction);
     }
 
     @Test
     void hashCodeValid() {
-        Instruction firstMoveInstruction = new MoveInstruction("L1", EBX, -340);
-        Instruction secondMoveInstruction = new MoveInstruction("L1", EBX, -340);
+        Instruction firstMoveInstruction = new MovInstruction("L1", EBX, -340);
+        Instruction secondMoveInstruction = new MovInstruction("L1", EBX, -340);
 
         Assertions.assertEquals(firstMoveInstruction.hashCode(), secondMoveInstruction.hashCode());
     }

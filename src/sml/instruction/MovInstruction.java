@@ -13,13 +13,13 @@ import java.util.Objects;
  */
 
 //mov r x	Store integer x in register r
-public class MoveInstruction extends Instruction {
+public class MovInstruction extends Instruction {
     private final RegisterName result;
     private final Integer source;
 
     public static final String OP_CODE = "mov";
 
-    public MoveInstruction(String label, RegisterName result, Integer source) {
+    public MovInstruction(String label, RegisterName result, Integer source) {
         super(label, OP_CODE);
         this.result = result;
         this.source = source;
@@ -54,7 +54,7 @@ public class MoveInstruction extends Instruction {
             return false;
         }
 
-        MoveInstruction other = (MoveInstruction) o;
+        MovInstruction other = (MovInstruction) o;
 
         return Objects.equals(this.label, other.label)
                 && Objects.equals(this.opcode, other.opcode)

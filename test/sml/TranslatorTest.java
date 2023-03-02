@@ -124,4 +124,19 @@ class TranslatorTest {
             fail(e);
         }
     }
+
+    @Test
+    void canCreateMoveInstructionWithReflection() {
+        try {
+            setUp("mov", "EAX", "10");
+
+            Instruction moveInstruction = (Instruction) getInstructionMethod.invoke(translator, "f1");
+
+            assertTrue(moveInstruction instanceof MovInstruction);
+            assertEquals("mov", moveInstruction.opcode);
+            assertEquals("f1: mov EAX 10", moveInstruction.toString());
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
 }
