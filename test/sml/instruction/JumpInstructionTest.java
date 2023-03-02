@@ -105,6 +105,4 @@ public class JumpInstructionTest {
 
         Assertions.assertEquals(firstJumpInstruction.hashCode(), secondJumpInstruction.hashCode());
     }
-
-    // TODO: handle when two instructions have the same label, exception should be thrown
 }

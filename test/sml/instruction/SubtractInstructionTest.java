@@ -73,6 +73,4 @@ public class SubtractInstructionTest {
 
         Assertions.assertEquals(firstSubtractInstruction.hashCode(), secondSubtractInstruction.hashCode());
     }
-
-    // TODO: handle when two instructions have the same label, exception should be thrown
 }

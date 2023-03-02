@@ -80,6 +80,4 @@ public class OutInstructionTest {
 
         Assertions.assertEquals(firstOutInstruction.hashCode(), secondOutInstruction.hashCode());
     }
-
-    // TODO: handle when two instructions have the same label, exception should be thrown
 }

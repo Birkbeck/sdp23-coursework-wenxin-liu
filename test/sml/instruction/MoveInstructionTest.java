@@ -72,6 +72,4 @@ public class MoveInstructionTest {
 
         Assertions.assertEquals(firstMoveInstruction.hashCode(), secondMoveInstruction.hashCode());
     }
-
-    // TODO: handle when two instructions have the same label, exception should be thrown
 }

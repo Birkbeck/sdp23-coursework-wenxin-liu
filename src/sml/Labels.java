@@ -21,7 +21,12 @@ public final class Labels {
 	 */
 	public void addLabel(String label, int address) {
 		Objects.requireNonNull(label);
-		// TODO: Add a check that there are no label duplicates.
+
+		// Add a check that there are no label duplicates.
+		if (labels.containsKey(label)) {
+			throw new IllegalArgumentException("cannot have duplicate labels");
+		}
+
 		labels.put(label, address);
 	}
 
