@@ -1,10 +1,7 @@
 package sml;
 
 import org.junit.jupiter.api.Test;
-import sml.instruction.AddInstruction;
-import sml.instruction.DivInstruction;
-import sml.instruction.MulInstruction;
-import sml.instruction.SubInstruction;
+import sml.instruction.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -27,6 +24,23 @@ class TranslatorTest {
 
             // e.g. "add EAX EBX"
             lineField.set(translator, String.format("%s %s %s", opcode, result, source));
+
+            getInstructionMethod = translator.getClass().getDeclaredMethod("getInstruction", String.class);
+            getInstructionMethod.setAccessible(true);
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
+
+    void setUp(String opcode, String source) {
+        try {
+            translator = new Translator("test.txt");
+
+            lineField = translator.getClass().getDeclaredField("line");
+            lineField.setAccessible(true);
+
+            // e.g. "out EAX"
+            lineField.set(translator, String.format("%s %s", opcode, source));
 
             getInstructionMethod = translator.getClass().getDeclaredMethod("getInstruction", String.class);
             getInstructionMethod.setAccessible(true);
@@ -87,6 +101,21 @@ class TranslatorTest {
 
             assertTrue(divisionInstruction instanceof DivInstruction);
             assertEquals("div", divisionInstruction.opcode);
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
+
+    @Test
+    void canCreateOutInstructionWithReflection() {
+        try {
+            setUp("out", "EAX");
+
+            Instruction outInstruction = (Instruction) getInstructionMethod.invoke(translator, "f1");
+
+            assertTrue(outInstruction instanceof OutInstruction);
+            assertEquals("out", outInstruction.opcode);
+            assertEquals("f1: out EAX", outInstruction.toString());
         } catch (Exception e) {
             fail(e);
         }

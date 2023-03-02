@@ -3,6 +3,7 @@ package sml;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,37 +121,36 @@ public final class Translator {
                     )
             );
 
-            Constructor<?>[] constructors = classObject.getConstructors();
+            Constructor<?> constructor = classObject.getConstructors()[0];
 
-            for (Constructor<?> constructor : constructors) {
-                ArrayList<String> argumentsList = new ArrayList<>();
+            ArrayList<String> argumentsList = new ArrayList<>();
+            argumentsList.add(label);
+            scan();
+            for (int i = 1; i < constructor.getParameterCount(); i++) {
+                argumentsList.add(scan());
+            }
 
-                argumentsList.add(label);
-                scan();
+            Object[] parameterObjects = new Object[constructor.getParameterCount()];
 
-                for (int i = 1; i < constructor.getParameterCount(); i++) {
-                    argumentsList.add(scan());
-                }
+            Class<?>[] constructorParameterTypes = constructor.getParameterTypes();
 
-                Object[] parameterObjects = new Object[constructor.getParameterCount()];
+            for (int i = 0; i < constructor.getParameterCount(); i++) {
+                Class<?> constructionParameterTypeClass = constructorParameterTypes[i];
 
-                // get the candidate constructor parameters
-                Class<?>[] constructorParameterTypes = constructor.getParameterTypes();
+                if (constructionParameterTypeClass.isInterface()) {
+                    Method method = Registers.Register.class.getMethod("valueOf", String.class);
 
-                for (int i = 0; i < constructor.getParameterCount(); i++) {
-                    // attempt to type the parameters using any available string constructors
-                    // NoSuchMethodException will be thrown where retyping isn't possible
-                    Class<?> constructorParameterTypeClass = constructorParameterTypes[i];
+                    parameterObjects[i] = method.invoke(null, argumentsList.get(i));
 
-                    parameterObjects[i] = constructorParameterTypeClass
+                } else {
+                    parameterObjects[i] = constructionParameterTypeClass
                             .getConstructor(String.class)
                             .newInstance(argumentsList.get(i));
-
-                    // return instance of object using the successful constructor
-                    // and parameters of the right class types.
-                    return (Instruction) constructor.newInstance(parameterObjects);
                 }
             }
+
+            return (Instruction) constructor.newInstance(parameterObjects);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,7 +159,7 @@ public final class Translator {
         //       to work with different sets of opcodes (different CPUs)
 
         return null;
-}
+    }
 
 
     private String getLabel() {
