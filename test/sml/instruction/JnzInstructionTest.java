@@ -14,7 +14,7 @@ import static sml.Registers.Register.*;
 
 // TODO: add comments to test scenarios to better explain set up
 // jnz s L	If the contents of register s is not zero, then make the statement labeled L the next statement to execute
-public class JumpInstructionTest {
+public class JnzInstructionTest {
     private Machine machine;
     private Registers registers;
     private List<Instruction> program;
@@ -37,7 +37,7 @@ public class JumpInstructionTest {
         Instruction addInstruction = new AddInstruction("L1", EAX, EBX);
 
         registers.set(ECX, 5);
-        Instruction jumpInstruction = new JumpInstruction("f3", ECX, "L1");
+        Instruction jumpInstruction = new JnzInstruction("f3", ECX, "L1");
 
         program.add(addInstruction);
         program.add(jumpInstruction);
@@ -55,7 +55,7 @@ public class JumpInstructionTest {
         Instruction addInstruction = new AddInstruction("L3", EAX, EBX);
 
         registers.set(ECX, 5);
-        Instruction jumpInstruction = new JumpInstruction("f3", ECX, "L3");
+        Instruction jumpInstruction = new JnzInstruction("f3", ECX, "L3");
 
         program.add(subtractInstruction);
         program.add(multiplyInstruction);
@@ -72,7 +72,7 @@ public class JumpInstructionTest {
     @Test
     void executeInvalid() {
         registers.set(ECX, 5);
-        Instruction jumpInstruction = new JumpInstruction("f3", ECX, "L1");
+        Instruction jumpInstruction = new JnzInstruction("f3", ECX, "L1");
 
         program.add(jumpInstruction);
 
@@ -86,23 +86,23 @@ public class JumpInstructionTest {
     @Test
     void toStringValid() {
         registers.set(EBX, 10);
-        Instruction instruction = new JumpInstruction("L1", EBX, "L2");
+        Instruction instruction = new JnzInstruction("L1", EBX, "L2");
 
         Assertions.assertEquals("L1: jnz EBX L2", instruction.toString());
     }
 
     @Test
     void equalsValid() {
-        Instruction firstJumpInstruction = new JumpInstruction("L1", EBX, "L2");
-        Instruction secondJumpInstruction = new JumpInstruction("L1", EBX, "L2");
+        Instruction firstJumpInstruction = new JnzInstruction("L1", EBX, "L2");
+        Instruction secondJumpInstruction = new JnzInstruction("L1", EBX, "L2");
 
         Assertions.assertEquals(firstJumpInstruction, secondJumpInstruction);
     }
 
     @Test
     void hashCodeValid() {
-        Instruction firstJumpInstruction = new JumpInstruction("L1", EBX, "L2");
-        Instruction secondJumpInstruction = new JumpInstruction("L1", EBX, "L2");
+        Instruction firstJumpInstruction = new JnzInstruction("L1", EBX, "L2");
+        Instruction secondJumpInstruction = new JnzInstruction("L1", EBX, "L2");
 
         Assertions.assertEquals(firstJumpInstruction.hashCode(), secondJumpInstruction.hashCode());
     }

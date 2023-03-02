@@ -139,4 +139,19 @@ class TranslatorTest {
             fail(e);
         }
     }
+
+    @Test
+    void canCreateJumpInstructionWithReflection() {
+        try {
+            setUp("jnz", "EAX", "f2");
+
+            Instruction jnzInstruction = (Instruction) getInstructionMethod.invoke(translator, "f1");
+
+            assertTrue(jnzInstruction instanceof JnzInstruction);
+            assertEquals("jnz", jnzInstruction.opcode);
+            assertEquals("f1: jnz EAX f2", jnzInstruction.toString());
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
 }

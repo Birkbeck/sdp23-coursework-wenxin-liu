@@ -14,13 +14,13 @@ import java.util.Objects;
  */
 
 // jnz s L	If the contents of register s is not zero, then make the statement labeled L the next statement to execute
-public class JumpInstruction extends Instruction {
+public class JnzInstruction extends Instruction {
     private final RegisterName result;
     private final String jumpToLabel;
 
     public static final String OP_CODE = "jnz";
 
-    public JumpInstruction(String label, RegisterName result, String jumpToLabel) {
+    public JnzInstruction(String label, RegisterName result, String jumpToLabel) {
         super(label, OP_CODE);
         this.result = result;
         this.jumpToLabel = jumpToLabel;
@@ -64,7 +64,7 @@ public class JumpInstruction extends Instruction {
             return false;
         }
 
-        JumpInstruction other = (JumpInstruction) o;
+        JnzInstruction other = (JnzInstruction) o;
 
         return Objects.equals(this.label, other.label)
                 && Objects.equals(this.opcode, other.opcode)
