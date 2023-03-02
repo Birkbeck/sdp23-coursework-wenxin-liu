@@ -2,6 +2,7 @@ package sml;
 
 import org.junit.jupiter.api.Test;
 import sml.instruction.AddInstruction;
+import sml.instruction.MulInstruction;
 import sml.instruction.SubInstruction;
 
 import java.lang.reflect.Field;
@@ -55,6 +56,20 @@ class TranslatorTest {
 
             assertTrue(subtractionInstruction instanceof SubInstruction);
             assertEquals("sub", subtractionInstruction.opcode);
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
+
+    @Test
+    void canCreateMultiplicationInstructionWithReflection() {
+        try {
+            setUp("mul", "EAX", "EBX");
+
+            Instruction multiplyInstruction = (Instruction) getInstructionMethod.invoke(translator, "f1");
+
+            assertTrue(multiplyInstruction instanceof MulInstruction);
+            assertEquals("mul", multiplyInstruction.opcode);
         } catch (Exception e) {
             fail(e);
         }

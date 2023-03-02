@@ -51,7 +51,7 @@ public class JumpInstructionTest {
     @Test
     void executeValidTwo() {
         Instruction subtractInstruction = new SubInstruction("L1", EAX, EBX);
-        Instruction multiplyInstruction = new MultiplyInstruction("L2", EAX, EBX);
+        Instruction multiplyInstruction = new MulInstruction("L2", EAX, EBX);
         Instruction addInstruction = new AddInstruction("L3", EAX, EBX);
 
         registers.set(ECX, 5);

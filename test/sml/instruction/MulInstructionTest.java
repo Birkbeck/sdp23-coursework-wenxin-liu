@@ -10,7 +10,7 @@ import sml.Registers;
 
 import static sml.Registers.Register.*;
 
-public class MultiplyInstructionTest {
+public class MulInstructionTest {
     private Machine machine;
     private Registers registers;
 
@@ -31,7 +31,7 @@ public class MultiplyInstructionTest {
     void executeValid() {
         registers.set(EAX, 5);
         registers.set(EBX, 6);
-        Instruction instruction = new MultiplyInstruction(null, EAX, EBX);
+        Instruction instruction = new MulInstruction(null, EAX, EBX);
         instruction.execute(machine);
         Assertions.assertEquals(30, machine.getRegisters().get(EAX));
     }
@@ -40,7 +40,7 @@ public class MultiplyInstructionTest {
     void executeValidTwo() {
         registers.set(EAX, -5);
         registers.set(EBX, -6);
-        Instruction instruction = new MultiplyInstruction(null, EAX, EBX);
+        Instruction instruction = new MulInstruction(null, EAX, EBX);
         instruction.execute(machine);
         Assertions.assertEquals(30, machine.getRegisters().get(EAX));
     }
@@ -49,22 +49,22 @@ public class MultiplyInstructionTest {
     void toStringValid() {
         registers.set(EAX, 2);
         registers.set(EBX, -3);
-        Instruction instruction = new MultiplyInstruction("f1", EAX, ECX);
+        Instruction instruction = new MulInstruction("f1", EAX, ECX);
         Assertions.assertEquals("f1: mul EAX ECX", instruction.toString());
     }
 
     @Test
     void equalsValid() {
-        Instruction firstMultiplyInstruction = new MultiplyInstruction(null, EBX, EBP);
-        Instruction secondMultiplyInstruction = new MultiplyInstruction(null, EBX, EBP);
+        Instruction firstMultiplyInstruction = new MulInstruction(null, EBX, EBP);
+        Instruction secondMultiplyInstruction = new MulInstruction(null, EBX, EBP);
 
         Assertions.assertEquals(firstMultiplyInstruction, secondMultiplyInstruction);
     }
 
     @Test
     void hashCodeValid() {
-        Instruction firstMultiplyInstruction = new MultiplyInstruction(null, EDI, ESI);
-        Instruction secondMultiplyInstruction = new MultiplyInstruction(null, EDI, ESI);
+        Instruction firstMultiplyInstruction = new MulInstruction(null, EDI, ESI);
+        Instruction secondMultiplyInstruction = new MulInstruction(null, EDI, ESI);
 
         Assertions.assertEquals(firstMultiplyInstruction.hashCode(), secondMultiplyInstruction.hashCode());
     }
