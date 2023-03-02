@@ -1,14 +1,12 @@
 package sml;
 
-import sml.instruction.*;
-
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import static sml.Registers.Register;
 
 /**
  * This class ....
@@ -25,7 +23,7 @@ public final class Translator {
     private String line = "";
 
     public Translator(String fileName) {
-        this.fileName =  fileName;
+        this.fileName = fileName;
     }
 
     // translate the small program in the file into lab (the labels) and
@@ -66,61 +64,102 @@ public final class Translator {
             return null;
 
         String opcode = scan();
-        switch (opcode) {
-            case AddInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
+//        switch (opcode) {
+//            case AddInstruction.OP_CODE -> {
+//                String r = scan();
+//                String s = scan();
+//                return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
+//            }
+//
+//            // add code for all other types of instructions
+//            case MultiplyInstruction.OP_CODE -> {
+//                String resultRegister = scan();
+//                String sourceRegister = scan();
+//                return new MultiplyInstruction(label, Register.valueOf(resultRegister), Register.valueOf(sourceRegister));
+//            }
+//
+//            case SubtractInstruction.OP_CODE -> {
+//                String resultRegister = scan();
+//                String sourceRegister = scan();
+//                return new SubtractInstruction(label, Register.valueOf(resultRegister), Register.valueOf(sourceRegister));
+//            }
+//
+//            case DivideInstruction.OP_CODE -> {
+//                String resultRegister = scan();
+//                String sourceRegister = scan();
+//                return new DivideInstruction(label, Register.valueOf(resultRegister), Register.valueOf(sourceRegister));
+//            }
+//
+//            case OutInstruction.OP_CODE -> {
+//                String targetRegister = scan();
+//                return new OutInstruction(label, Register.valueOf(targetRegister));
+//            }
+//
+//            case MoveInstruction.OP_CODE -> {
+//                String targetRegister = scan();
+//                String sourceRegister = scan();
+//                return new MoveInstruction(label, Register.valueOf(targetRegister), Integer.valueOf(sourceRegister));
+//            }
+//
+//            case JumpInstruction.OP_CODE -> {
+//                String register = scan();
+//                String jumpToLabel = scan();
+//                return new JumpInstruction(label, Register.valueOf(register), jumpToLabel);
+//            }
+//            default -> {
+//                System.out.println("Unknown instruction: " + opcode);
+//            }
+//        }
+
+        // Then, replace the switch by using the Reflection API
+        try {
+
+            Class<?> classObject = Class.forName(
+                    String.format("sml.instruction.%sInstruction",
+                            opcode.substring(0, 1).toUpperCase() + opcode.substring(1)
+                    )
+            );
+
+            Constructor<?>[] constructors = classObject.getConstructors();
+
+            for (Constructor<?> constructor : constructors) {
+                ArrayList<String> argumentsList = new ArrayList<>();
+
+                argumentsList.add(label);
+                scan();
+
+                for (int i = 1; i < constructor.getParameterCount(); i++) {
+                    argumentsList.add(scan());
+                }
+
+                Object[] parameterObjects = new Object[constructor.getParameterCount()];
+
+                // get the candidate constructor parameters
+                Class<?>[] constructorParameterTypes = constructor.getParameterTypes();
+
+                for (int i = 0; i < constructor.getParameterCount(); i++) {
+                    // attempt to type the parameters using any available string constructors
+                    // NoSuchMethodException will be thrown where retyping isn't possible
+                    Class<?> constructorParameterTypeClass = constructorParameterTypes[i];
+
+                    parameterObjects[i] = constructorParameterTypeClass
+                            .getConstructor(String.class)
+                            .newInstance(argumentsList.get(i));
+
+                    // return instance of object using the successful constructor
+                    // and parameters of the right class types.
+                    return (Instruction) constructor.newInstance(parameterObjects);
+                }
             }
-
-            case MultiplyInstruction.OP_CODE -> {
-                String resultRegister = scan();
-                String sourceRegister = scan();
-                return new MultiplyInstruction(label, Register.valueOf(resultRegister), Register.valueOf(sourceRegister));
-            }
-
-            case SubtractInstruction.OP_CODE -> {
-                String resultRegister = scan();
-                String sourceRegister = scan();
-                return new SubtractInstruction(label, Register.valueOf(resultRegister), Register.valueOf(sourceRegister));
-            }
-
-            case DivideInstruction.OP_CODE -> {
-                String resultRegister = scan();
-                String sourceRegister = scan();
-                return new DivideInstruction(label, Register.valueOf(resultRegister), Register.valueOf(sourceRegister));
-            }
-
-            case OutInstruction.OP_CODE -> {
-                String targetRegister = scan();
-                return new OutInstruction(label, Register.valueOf(targetRegister));
-            }
-
-            case MoveInstruction.OP_CODE -> {
-                String targetRegister = scan();
-                String sourceRegister = scan();
-                return new MoveInstruction(label, Register.valueOf(targetRegister), Integer.valueOf(sourceRegister));
-            }
-
-            case JumpInstruction.OP_CODE -> {
-                String register = scan();
-                String jumpToLabel = scan();
-                return new JumpInstruction(label, Register.valueOf(register), jumpToLabel);
-            }
-
-            // TODO: add code for all other types of instructions
-
-            // TODO: Then, replace the switch by using the Reflection API
-
-            // TODO: Next, use dependency injection to allow this machine class
-            //       to work with different sets of opcodes (different CPUs)
-
-            default -> {
-                System.out.println("Unknown instruction: " + opcode);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        // TODO: Next, use dependency injection to allow this machine class
+        //       to work with different sets of opcodes (different CPUs)
+
         return null;
-    }
+}
 
 
     private String getLabel() {

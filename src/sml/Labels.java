@@ -56,7 +56,6 @@ public final class Labels {
 	}
 
 	// Implement equals and hashCode (needed in class Machine).
-
 	@Override
 	public boolean equals(Object o) {
 		// self check
