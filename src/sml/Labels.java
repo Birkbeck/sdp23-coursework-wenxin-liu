@@ -3,12 +3,17 @@ package sml;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-// TODO: write a JavaDoc for the class
+import static sml.Instruction.ERROR_PROGRAM_COUNTER_UPDATE;
+
+// write a JavaDoc for the class
 
 /**
+ * Represents the label of the instruction
+ * Label is used in jump instructions to change the order of execution
  *
- * @author ...
+ * @author Wenxin Liu
  */
 public final class Labels {
 	private final Map<String, Integer> labels = new HashMap<>();
@@ -37,10 +42,11 @@ public final class Labels {
 	 * @return the address the label refers to
 	 */
 	public int getAddress(String label) {
-		// TODO: Where can NullPointerException be thrown here?
-		//       (Write an explanation.)
-		//       Add code to deal with non-existent labels.
-		return labels.get(label);
+		// Where can NullPointerException be thrown here?
+		// This can happen when we try to get the value of a label that does not exist in the map
+
+		// Add code to deal with non-existent labels.
+		return labels.getOrDefault(label, ERROR_PROGRAM_COUNTER_UPDATE);
 	}
 
 	/**
@@ -51,8 +57,10 @@ public final class Labels {
 	 */
 	@Override
 	public String toString() {
-		// TODO: Implement the method using the Stream API (see also class Registers).
-		return "";
+		return labels.entrySet().stream()
+				.sorted(Map.Entry.comparingByKey())
+				.map(e -> e.getKey() + " = " + e.getValue())
+				.collect(Collectors.joining(", ", "[", "]")) ;
 	}
 
 	// Implement equals and hashCode (needed in class Machine).

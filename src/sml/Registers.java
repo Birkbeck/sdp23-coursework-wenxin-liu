@@ -3,15 +3,19 @@ package sml;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// TODO: write a JavaDoc for the class
+// write a JavaDoc for the class
 
 /**
+ * Stores the registers used in a machine
  *
- * @author ...
+ * @author Wenxin Liu
  */
 public final class Registers {
     private final Map<Register, Integer> registers = new HashMap<>();
 
+    /**
+     * Represents the names of the registers available
+     */
     public enum Register implements RegisterName {
         EAX, EBX, ECX, EDX, ESP, EBP, ESI, EDI;
     }

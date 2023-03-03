@@ -12,7 +12,6 @@ import java.util.List;
 
 import static sml.Registers.Register.*;
 
-// TODO: add comments to test scenarios to better explain set up
 // jnz s L	If the contents of register s is not zero, then make the statement labeled L the next statement to execute
 public class JnzInstructionTest {
     private Machine machine;
