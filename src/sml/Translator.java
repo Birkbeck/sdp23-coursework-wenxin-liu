@@ -116,65 +116,65 @@ public final class Translator {
 //        }
 //
 //        return null;
-
-        // Then, replace the switch by using the Reflection API
-        try {
-
-            Class<?> classObject = Class.forName(
-                    String.format("sml.instruction.%sInstruction",
-                            opcode.substring(0, 1).toUpperCase() + opcode.substring(1)
-                    )
-            );
-
-            Constructor<?> constructor = classObject.getConstructors()[0];
-
-            ArrayList<String> argumentsList = new ArrayList<>();
-            argumentsList.add(label);
-
-            for (int i = 1; i < constructor.getParameterCount(); i++) {
-                argumentsList.add(scan());
-            }
-
-            Object[] parameterObjects = new Object[constructor.getParameterCount()];
-
-            Class<?>[] constructorParameterTypes = constructor.getParameterTypes();
-
-            for (int i = 0; i < constructor.getParameterCount(); i++) {
-                Class<?> constructionParameterTypeClass = constructorParameterTypes[i];
-
-                if (i == 0 && argumentsList.get(i) == null) {
-                    parameterObjects[i] = null;
-
-                } else if (constructionParameterTypeClass.isInterface()) {
-                    Method method = Registers.Register.class.getMethod("valueOf", String.class);
-
-                    parameterObjects[i] = method.invoke(null, argumentsList.get(i));
-
-                } else {
-                    parameterObjects[i] = constructionParameterTypeClass
-                            .getConstructor(String.class)
-                            .newInstance(argumentsList.get(i));
-                }
-            }
-
-            return (Instruction) constructor.newInstance(parameterObjects);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
 //
-//        // Next, use dependency injection to allow this machine class
-//        // to work with different sets of opcodes (different CPUs)
-//        String result = scan();
-//        String source = scan();
+//        // Then, replace the switch by using the Reflection API
+//        try {
 //
-//        InstructionFactory factory = InstructionFactory.getInstance();
+//            Class<?> classObject = Class.forName(
+//                    String.format("sml.instruction.%sInstruction",
+//                            opcode.substring(0, 1).toUpperCase() + opcode.substring(1)
+//                    )
+//            );
 //
-//        InstructionProvider instructionProvider = factory.getInstructionProvider();
+//            Constructor<?> constructor = classObject.getConstructors()[0];
 //
-//        return instructionProvider.getInstruction(label, opcode, result, source);
+//            ArrayList<String> argumentsList = new ArrayList<>();
+//            argumentsList.add(label);
+//
+//            for (int i = 1; i < constructor.getParameterCount(); i++) {
+//                argumentsList.add(scan());
+//            }
+//
+//            Object[] parameterObjects = new Object[constructor.getParameterCount()];
+//
+//            Class<?>[] constructorParameterTypes = constructor.getParameterTypes();
+//
+//            for (int i = 0; i < constructor.getParameterCount(); i++) {
+//                Class<?> constructionParameterTypeClass = constructorParameterTypes[i];
+//
+//                if (i == 0 && argumentsList.get(i) == null) {
+//                    parameterObjects[i] = null;
+//
+//                } else if (constructionParameterTypeClass.isInterface()) {
+//                    Method method = Registers.Register.class.getMethod("valueOf", String.class);
+//
+//                    parameterObjects[i] = method.invoke(null, argumentsList.get(i));
+//
+//                } else {
+//                    parameterObjects[i] = constructionParameterTypeClass
+//                            .getConstructor(String.class)
+//                            .newInstance(argumentsList.get(i));
+//                }
+//            }
+//
+//            return (Instruction) constructor.newInstance(parameterObjects);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+
+        // Next, use dependency injection to allow this machine class
+        // to work with different sets of opcodes (different CPUs)
+        String result = scan();
+        String source = scan();
+
+        InstructionFactory factory = InstructionFactory.getInstance();
+
+        InstructionProvider instructionProvider = factory.getInstructionProvider();
+
+        return instructionProvider.getInstruction(label, opcode, result, source);
     }
 
 
