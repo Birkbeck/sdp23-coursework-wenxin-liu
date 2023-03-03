@@ -23,7 +23,7 @@ public class ConcreteInstructionProvider implements InstructionProvider {
             }
 
             case "out" -> {
-                return getOutInstruction(label, Registers.Register.valueOf(source));
+                return getOutInstruction(label, Registers.Register.valueOf(result));
             }
 
             case "mov" -> {
