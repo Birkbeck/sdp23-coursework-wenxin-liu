@@ -2,12 +2,10 @@ package sml;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 
 /**
  * This class ....
@@ -17,7 +15,6 @@ import java.util.Scanner;
  * @author ...
  */
 public final class Translator {
-
     private final String fileName; // source file of SML code
 
     // line contains the characters in the current line that's not been processed yet
@@ -111,54 +108,60 @@ public final class Translator {
 //                System.out.println("Unknown instruction: " + opcode);
 //            }
 //        }
+//
+//        // Then, replace the switch by using the Reflection API
+//        try {
+//
+//            Class<?> classObject = Class.forName(
+//                    String.format("sml.instruction.%sInstruction",
+//                            opcode.substring(0, 1).toUpperCase() + opcode.substring(1)
+//                    )
+//            );
+//
+//            Constructor<?> constructor = classObject.getConstructors()[0];
+//
+//            ArrayList<String> argumentsList = new ArrayList<>();
+//            argumentsList.add(label);
+//
+//            for (int i = 1; i < constructor.getParameterCount(); i++) {
+//                argumentsList.add(scan());
+//            }
+//
+//            Object[] parameterObjects = new Object[constructor.getParameterCount()];
+//
+//            Class<?>[] constructorParameterTypes = constructor.getParameterTypes();
+//
+//            for (int i = 0; i < constructor.getParameterCount(); i++) {
+//                Class<?> constructionParameterTypeClass = constructorParameterTypes[i];
+//
+//                if (constructionParameterTypeClass.isInterface()) {
+//                    Method method = Registers.Register.class.getMethod("valueOf", String.class);
+//
+//                    parameterObjects[i] = method.invoke(null, argumentsList.get(i));
+//
+//                } else {
+//                    parameterObjects[i] = constructionParameterTypeClass
+//                            .getConstructor(String.class)
+//                            .newInstance(argumentsList.get(i));
+//                }
+//            }
+//
+//            return (Instruction) constructor.newInstance(parameterObjects);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        // Then, replace the switch by using the Reflection API
-        try {
+        // Next, use dependency injection to allow this machine class
+        // to work with different sets of opcodes (different CPUs)
+        String result = scan();
+        String source = scan();
 
-            Class<?> classObject = Class.forName(
-                    String.format("sml.instruction.%sInstruction",
-                            opcode.substring(0, 1).toUpperCase() + opcode.substring(1)
-                    )
-            );
+        InstructionFactory factory = InstructionFactory.getInstance();
 
-            Constructor<?> constructor = classObject.getConstructors()[0];
+        InstructionProvider instructionProvider = factory.getInstructionProvider();
 
-            ArrayList<String> argumentsList = new ArrayList<>();
-            argumentsList.add(label);
-
-            for (int i = 1; i < constructor.getParameterCount(); i++) {
-                argumentsList.add(scan());
-            }
-
-            Object[] parameterObjects = new Object[constructor.getParameterCount()];
-
-            Class<?>[] constructorParameterTypes = constructor.getParameterTypes();
-
-            for (int i = 0; i < constructor.getParameterCount(); i++) {
-                Class<?> constructionParameterTypeClass = constructorParameterTypes[i];
-
-                if (constructionParameterTypeClass.isInterface()) {
-                    Method method = Registers.Register.class.getMethod("valueOf", String.class);
-
-                    parameterObjects[i] = method.invoke(null, argumentsList.get(i));
-
-                } else {
-                    parameterObjects[i] = constructionParameterTypeClass
-                            .getConstructor(String.class)
-                            .newInstance(argumentsList.get(i));
-                }
-            }
-
-            return (Instruction) constructor.newInstance(parameterObjects);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // TODO: Next, use dependency injection to allow this machine class
-        //       to work with different sets of opcodes (different CPUs)
-
-        return null;
+        return instructionProvider.getInstruction(label, opcode, result, source);
     }
 
 
